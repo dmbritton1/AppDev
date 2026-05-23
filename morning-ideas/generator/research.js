@@ -58,8 +58,7 @@ Format as a JSON array of objects:
 Return ONLY the JSON array, no markdown code fences, no explanation before or after.`;
 
   const model = genAI.getGenerativeModel({
-    model: 'gemini-2.0-flash',
-    tools: [{ googleSearch: {} }],
+    model: 'gemma-4-31b-it',
   });
 
   const result = await model.generateContent(prompt);
