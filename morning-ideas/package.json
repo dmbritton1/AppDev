@@ -1,0 +1,13 @@
+{
+  "name": "morning-ideas",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Daily AI-powered app prototype generator",
+  "scripts": {
+    "start": "node generator/run.js"
+  },
+  "dependencies": {
+    "@google/generative-ai": "^0.21.0",
+    "dotenv": "^16.4.7"
+  }
+}

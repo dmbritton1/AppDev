@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Morning Ideas</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <h1 class="logo">Morning Ideas</h1>
+      <p class="tagline">Daily prototype generator</p>
+    </div>
+    <div class="sidebar-actions">
+      <button class="btn btn-primary" id="regenerateBtn">Regenerate</button>
+      <button class="btn btn-ghost" id="settingsBtn">Settings</button>
+    </div>
+    <div class="sidebar-divider"></div>
+    <div class="sidebar-history">
+      <h3 class="section-title">History</h3>
+      <ul id="historyList" class="history-list"></ul>
+      <p id="historyEmpty" class="history-empty">No history yet</p>
+    </div>
+  </aside>
+
+  <main class="content">
+    <div class="content-header">
+      <h2 id="pageTitle">Today's Ideas</h2>
+      <p class="content-date" id="contentDate"></p>
+    </div>
+    <div id="cardsContainer" class="cards-grid"></div>
+    <div id="emptyState" class="empty-state" style="display:none">
+      <div class="empty-icon">
+        <svg width="64" height="64" viewBox="0 0 64 64" fill="none">
+          <circle cx="32" cy="32" r="28" stroke="currentColor" stroke-width="2" opacity="0.3"/>
+          <path d="M32 18v14M32 40v2" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <h3>No ideas yet today</h3>
+      <p>Ideas are generated each morning at 7 AM CT.<br>Click <strong>Regenerate</strong> to run the pipeline now.</p>
+    </div>
+    <div id="loadingState" class="loading-state" style="display:none">
+      <div class="spinner"></div>
+      <p>Loading ideas...</p>
+    </div>
+  </main>
+
+  <div class="modal-overlay" id="modalOverlay" style="display:none">
+    <div class="modal-window" id="modalWindow">
+      <div class="modal-titlebar" id="modalTitlebar">
+        <span class="modal-title" id="modalTitle">Demo</span>
+        <div class="modal-controls">
+          <button class="modal-ctrl-btn" id="modalFullscreen" title="Toggle fullscreen">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="currentColor">
+              <path d="M1 5V1h4M9 1h4v4M13 9v4H9M5 13H1V9"/>
+            </svg>
+          </button>
+          <button class="modal-ctrl-btn modal-close-btn" id="modalClose" title="Close">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M2 2l10 10M12 2L2 12"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+      <iframe class="modal-iframe" id="modalIframe" sandbox="allow-scripts allow-forms allow-modals"></iframe>
+      <div class="modal-resize" id="modalResize"></div>
+    </div>
+  </div>
+
+  <div class="settings-overlay" id="settingsOverlay" style="display:none">
+    <div class="settings-modal">
+      <h3>GitHub Settings</h3>
+      <p class="settings-desc">Configure GitHub access to trigger regeneration from the dashboard.</p>
+      <label class="form-label">
+        Repository
+        <input type="text" class="form-input" id="settingsRepo" placeholder="username/morning-ideas">
+      </label>
+      <label class="form-label">
+        Personal Access Token
+        <input type="password" class="form-input" id="settingsToken" placeholder="ghp_...">
+      </label>
+      <p class="settings-hint">Token needs the <code>workflow</code> scope.</p>
+      <div class="settings-actions">
+        <button class="btn btn-ghost" id="settingsCancel">Cancel</button>
+        <button class="btn btn-primary" id="settingsSave">Save</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

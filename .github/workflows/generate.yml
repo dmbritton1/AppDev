@@ -1,0 +1,39 @@
+name: Generate Daily Ideas
+
+on:
+  schedule:
+    - cron: '0 12 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    defaults:
+      run:
+        working-directory: morning-ideas
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - run: npm install
+
+      - run: node generator/run.js
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+
+      - name: Commit and push
+        working-directory: .
+        run: |
+          git config user.name "Morning Ideas Bot"
+          git config user.email "bot@morning-ideas.local"
+          git add morning-ideas/data/
+          DATE=$(date +%Y-%m-%d)
+          git diff --staged --quiet || git commit -m "Daily ideas: $DATE"
+          git push
