@@ -1,11 +1,7 @@
-import { GoogleGenerativeAI } from '@google/generative-ai';
+import { GoogleGenAI } from '@google/genai';
 
 export async function buildPrototypes(ideas) {
-  const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
-  const model = genAI.getGenerativeModel({
-    model: 'gemini-2.0-flash',
-    generationConfig: { maxOutputTokens: 8192 },
-  });
+  const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
   const prototypes = [];
 
   for (let i = 0; i < ideas.length; i++) {
@@ -34,8 +30,12 @@ Requirements — every single one is mandatory:
 
 Output ONLY the complete HTML starting with <!DOCTYPE html>. No markdown fences, no explanation, no commentary — just the raw HTML file.`;
 
-    const result = await model.generateContent(prompt);
-    let html = result.response.text().trim();
+    const result = await ai.models.generateContent({
+      model: 'gemma-4-26b-a4b-it',
+      contents: prompt,
+      config: { maxOutputTokens: 8192 },
+    });
+    let html = result.text.trim();
 
     if (html.startsWith('```')) {
       html = html.replace(/^```(?:html)?\n?/, '').replace(/\n?```$/, '');

@@ -7,7 +7,7 @@
     "start": "node generator/run.js"
   },
   "dependencies": {
-    "@google/generative-ai": "^0.21.0",
+    "@google/genai": "^1.0.0",
     "dotenv": "^16.4.7"
   }
 }

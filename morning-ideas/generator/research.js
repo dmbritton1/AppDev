@@ -1,4 +1,4 @@
-import { GoogleGenerativeAI } from '@google/generative-ai';
+import { GoogleGenAI } from '@google/genai';
 import fs from 'fs';
 import path from 'path';
 
@@ -16,7 +16,7 @@ const CREATIVITY_CONSTRAINTS = [
 ];
 
 export async function research() {
-  const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
+  const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
 
   const usedNichesPath = path.join(process.cwd(), 'data', 'used-niches.json');
   const usedNiches = JSON.parse(fs.readFileSync(usedNichesPath, 'utf-8'));
@@ -57,13 +57,11 @@ Format as a JSON array of objects:
 
 Return ONLY the JSON array, no markdown code fences, no explanation before or after.`;
 
-  const model = genAI.getGenerativeModel({
-    model: 'gemini-2.0-flash',
-    tools: [{ googleSearch: {} }],
+  const result = await ai.models.generateContent({
+    model: 'gemma-4-26b-a4b-it',
+    contents: prompt,
   });
-
-  const result = await model.generateContent(prompt);
-  const text = result.response.text();
+  const text = result.text;
 
   const jsonMatch = text.match(/\[[\s\S]*\]/);
   if (!jsonMatch) {
