@@ -3,7 +3,7 @@ import { GoogleGenerativeAI } from '@google/generative-ai';
 export async function buildPrototypes(ideas) {
   const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
   const model = genAI.getGenerativeModel({
-    model: 'gemma-4-31b-it',
+    model: 'gemini-2.0-flash',
     generationConfig: { maxOutputTokens: 8192 },
   });
   const prototypes = [];
