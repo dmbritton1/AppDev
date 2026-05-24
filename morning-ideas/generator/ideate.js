@@ -1,8 +1,7 @@
-import { GoogleGenerativeAI } from '@google/generative-ai';
+import { GoogleGenAI } from '@google/genai';
 
 export async function ideate(niches) {
-  const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
-  const model = genAI.getGenerativeModel({ model: 'gemma-4-31b-it' });
+  const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
   const ideas = [];
 
   for (let i = 0; i < niches.length; i++) {
@@ -31,8 +30,11 @@ The name should be creative and memorable. Include 3-5 core features. The emulat
 
 Return ONLY the JSON object, no markdown code fences, no explanation.`;
 
-    const result = await model.generateContent(prompt);
-    const text = result.response.text();
+    const result = await ai.models.generateContent({
+      model: 'gemma-4-26b-a4b-it',
+      contents: prompt,
+    });
+    const text = result.text;
 
     const jsonMatch = text.match(/\{[\s\S]*\}/);
     if (!jsonMatch) {
