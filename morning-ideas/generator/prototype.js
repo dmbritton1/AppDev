@@ -1,7 +1,7 @@
 import { GoogleGenAI } from '@google/genai';
 
 export async function buildPrototypes(ideas) {
-  const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
+  const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY, httpOptions: { timeout: 300000 } });
   const prototypes = [];
 
   for (let i = 0; i < ideas.length; i++) {
